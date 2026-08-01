@@ -1,0 +1,15 @@
+generated: '2026-07-21'
+method: generated
+source: https://github.com/simulmedia/playerwon-sdk
+skills:
+  - file: simulmedia-playerwon-rewarded-video.md
+    name: PlayerWON rewarded-video opportunity
+    api: PlayerWON API
+    operations:
+      - POST /token
+      - POST /session
+      - POST /opportunity
+      - PUT /start/{receipt}
+      - PUT /progress/{receipt}
+      - PUT /complete/{receipt}
+      - PUT /abort/{receipt}

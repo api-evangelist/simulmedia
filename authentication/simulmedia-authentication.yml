@@ -1,0 +1,47 @@
+generated: '2026-07-21'
+method: searched
+source: https://github.com/simulmedia/playerwon-sdk
+docs: https://github.com/simulmedia/playerwon-sdk
+api: PlayerWON API
+base_url: https://game.simulmedia-apis.com
+summary:
+  types: [oauth2]
+  oauth2_flows: [clientCredentials]
+  token_delivery: bearer
+  notes: >-
+    The PlayerWON API uses OAuth 2.0 client-credentials. A game server exchanges
+    its CLIENT_ID / CLIENT_SECRET (plus the game title id, `tid`) at the /token
+    endpoint for a short-lived access token, then passes it to the game client
+    which sends it as an `Authorization: Bearer <token>` header on every
+    subsequent call. Secrets never ship in the game client.
+schemes:
+  - name: OAuth2ClientCredentials
+    type: oauth2
+    flow: clientCredentials
+    token_url: https://game.simulmedia-apis.com/token
+    token_request:
+      content_type: application/x-www-form-urlencoded
+      parameters:
+        - name: client_id
+          required: true
+        - name: client_secret
+          required: true
+        - name: grant_type
+          required: true
+          value: client_credentials
+        - name: tid
+          required: true
+          description: PlayerWON game title id.
+        - name: idfa
+          required: false
+          description: Optional device advertising identifier appended to the token request.
+    token_response:
+      fields: [access_token, token_type, expires_in]
+    sources: [DevGameServer/cmd/gameserver/gameserver.go]
+  - name: BearerToken
+    type: http
+    scheme: bearer
+    description: >-
+      Access token returned by /token is sent as `Authorization: Bearer <token>`
+      on the /session, /opportunity, /start, /progress, /complete and /abort calls.
+    sources: [UnitySDK/Assets/PlayerWon-SDK/Classes/Bridge.cs]

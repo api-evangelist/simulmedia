@@ -1,9 +1,30 @@
 aid: simulmedia
 name: Simulmedia
-description: Simulmedia is a company surfaced as a portfolio company of union-square-ventures and added
-  to the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment
-  pipeline.
+description: >-
+  Simulmedia is a technology-driven television advertising company that helps
+  advertisers, agencies, and growth marketers plan, buy, and measure campaigns
+  across linear TV, connected TV (CTV), and games. Its products include the
+  Performance TV media-buying service, the AI-powered TV+ media-buying platform,
+  and Simulmedia Self-Serve. Through PlayerWON, Simulmedia operates an in-game
+  rewarded-video engagement and monetization platform for free-to-play console
+  and PC games, exposed to game developers through the PlayerWON API and a
+  first-party Unity/Unreal SDK. Simulmedia is a portfolio company of Union Square
+  Ventures. This profile was enriched by the API Evangelist pipeline from the
+  company's public developer surface and the open-source PlayerWON SDK.
 url: https://raw.githubusercontent.com/api-evangelist/simulmedia/refs/heads/main/apis.yml
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://logo.clearbit.com/simulmedia.com
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
@@ -12,15 +33,77 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-21'
 tags:
 - Company
-apis: []
+- Advertising
+- Television
+- Connected TV
+- Games
+- AdTech
+- Rewarded Video
+- Media Buying
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+apis:
+- name: PlayerWON API
+  description: >-
+    In-game rewarded-video ad API. A game server exchanges client credentials for
+    a Bearer token, then requests ad opportunities for a player and reports the
+    playback lifecycle (start, progress, complete, abort) so the player's reward
+    is granted. OAuth2 client-credentials; JSON. Surfaced from the first-party
+    PlayerWON SDK (no public OpenAPI is published).
+  humanURL: https://www.playerwon.com
+  baseURL: https://game.simulmedia-apis.com
+  tags:
+  - Rewarded Video
+  - Games
+  - Advertising
+  properties:
+  - type: Authentication
+    url: authentication/simulmedia-authentication.yml
+  - type: Conventions
+    url: conventions/simulmedia-conventions.yml
+  - type: DataModel
+    url: data-model/simulmedia-data-model.yml
+  - type: Packages
+    url: packages/simulmedia-packages.yml
+  - type: SDKs
+    url: packages/simulmedia-packages.yml
+  - type: MCPServer
+    url: mcp/simulmedia-mcp.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: Conformance
+    url: conformance/simulmedia-conformance.yml
+  - type: SourceCode
+    url: https://github.com/simulmedia/playerwon-sdk
 common:
+- type: DomainSecurity
+  url: security/simulmedia-domain-security.yml
 - type: Website
   url: https://simulmedia.com
+- type: LLMsTxt
+  url: llms/simulmedia-llms.txt
+- type: GitHubOrganization
+  url: https://github.com/simulmedia
+- type: Blog
+  url: https://simulmedia.com/blog
+- type: SignUp
+  url: https://app.simulmedia.com/auth/signup
+- type: Login
+  url: https://platform.simulmedia.com/sign-in
+- type: Support
+  url: https://simulmedia.com/contact-us
+- type: PrivacyPolicy
+  url: https://simulmedia.com/privacy
+- type: TermsOfService
+  url: https://simulmedia.com/terms
+x-enrichment:
+  date: '2026-07-21'
+  status: enriched
+  artifacts_added: 10
+  pass: local-v1

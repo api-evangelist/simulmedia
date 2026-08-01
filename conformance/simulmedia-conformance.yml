@@ -1,0 +1,28 @@
+generated: '2026-07-21'
+method: derived
+source: https://github.com/simulmedia/playerwon-sdk
+api: PlayerWON API
+standards:
+  - id: oauth2
+    conforms: true
+    evidence: PlayerWON API issues tokens via an OAuth2 client_credentials /token endpoint.
+  - id: oauth2-client-credentials
+    conforms: true
+    evidence: /token accepts grant_type=client_credentials with client_id/client_secret.
+  - id: bearer-token
+    conforms: true
+    evidence: Access token is sent as Authorization Bearer on all API calls.
+  - id: gdpr-consent-signaling
+    conforms: true
+    evidence: ClientDetails carries gdpr and gdpr_consent flags.
+  - id: coppa-signaling
+    conforms: true
+    evidence: ClientDetails carries coppa and underage flags.
+  - id: oidc
+    conforms: false
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: No application/problem+json error envelope documented.
+  - id: openapi-published
+    conforms: false
+    evidence: No public OpenAPI/Swagger definition found.

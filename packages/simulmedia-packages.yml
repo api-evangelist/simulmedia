@@ -1,0 +1,35 @@
+generated: '2026-07-21'
+method: searched
+source: https://github.com/simulmedia/playerwon-sdk
+notes: >-
+  Simulmedia publishes one first-party client SDK: the PlayerWON SDK for game
+  engines (Unity and Unreal), distributed as source on GitHub rather than via a
+  language package registry. No npm / PyPI / NuGet / Maven / crates.io first-party
+  package for the PlayerWON API was found. The SDK integrates rewarded-video ad
+  opportunities against the PlayerWON API at https://game.simulmedia-apis.com.
+packages:
+  - language: csharp
+    engine: unity
+    registry: github
+    name: PlayerWON SDK (Unity)
+    repo: https://github.com/simulmedia/playerwon-sdk
+    path: UnitySDK/
+    install: Import the UnitySDK package from the playerwon-sdk repository into your Unity project.
+    official: true
+  - language: cpp
+    engine: unreal
+    registry: github
+    name: PlayerWON SDK (Unreal)
+    repo: https://github.com/simulmedia/playerwon-sdk
+    path: PlayerWONSDK/
+    install: Add the PlayerWONSDKPlugin from the playerwon-sdk repository to your Unreal project's Plugins directory.
+    official: true
+  - language: go
+    engine: server
+    registry: github
+    name: PlayerWON Example Game Server
+    repo: https://github.com/simulmedia/playerwon-sdk
+    path: DevGameServer/
+    install: Run the reference Go game server that brokers the /token client-credentials exchange for game clients.
+    official: true
+    kind: reference-server

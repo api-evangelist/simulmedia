@@ -1,0 +1,77 @@
+generated: '2026-07-21'
+method: searched
+source: https://github.com/simulmedia/playerwon-sdk
+api: PlayerWON API
+base_url: https://game.simulmedia-apis.com
+authentication:
+  style: oauth2-client-credentials
+  token_url: https://game.simulmedia-apis.com/token
+  header: 'Authorization: Bearer <token>'
+  ref: authentication/simulmedia-authentication.yml
+content_types:
+  token_endpoint: application/x-www-form-urlencoded
+  json_endpoints: application/json
+http_methods:
+  create: POST      # /token, /session, /opportunity
+  lifecycle: PUT    # /start, /progress, /complete, /abort
+resource_model:
+  key: receipt
+  description: >-
+    A successful POST /opportunity returns an Opportunity carrying a `Receipt`.
+    That receipt is the resource key for the ad-playback lifecycle: it is appended
+    to the path of the /start/{receipt}, /progress/{receipt}, /complete/{receipt}
+    and /abort/{receipt} calls.
+endpoints:
+  - method: POST
+    path: /token
+    summary: Exchange client credentials for a Bearer access token (OAuth2 client_credentials).
+  - method: POST
+    path: /session
+    summary: Open a PlayerWON session for the authenticated game title.
+  - method: POST
+    path: /opportunity
+    summary: Request rewarded-video ad opportunities for a player (body is the ClientDetails object).
+  - method: PUT
+    path: /start/{receipt}
+    summary: Signal that playback of the opportunity has started.
+  - method: PUT
+    path: /progress/{receipt}
+    query: {p: percentage of video watched}
+    summary: Report playback progress.
+  - method: PUT
+    path: /complete/{receipt}
+    summary: Signal that the opportunity completed (reward is granted).
+  - method: PUT
+    path: /abort/{receipt}
+    query: {reason: abort reason, t: seconds into video}
+    summary: Signal that the opportunity was aborted before completion.
+pagination:
+  supported: false
+  notes: No pagination surface documented; /opportunity returns a bounded opportunity set.
+idempotency:
+  supported: false
+  notes: No idempotency-key header is documented. Playback-lifecycle calls are keyed by the opportunity Receipt.
+versioning:
+  scheme: none-documented
+  notes: No explicit API version in the base path; the SDK targets the unversioned host.
+rate_limiting:
+  documented: false
+privacy_and_consent:
+  description: >-
+    The ClientDetails request payload carries first-class consent / compliance
+    signals that the caller must set correctly.
+  fields:
+    coppa: COPPA flag; 1 marks a player under 13.
+    underage: Underage flag.
+    gdpr: 1 when the player is under GDPR jurisdiction.
+    gdpr_consent: 1 when GDPR consent has been given (only meaningful when gdpr is 1).
+    lt: Limit-tracking flag; 1 when the player opted into limited ad tracking.
+error_handling:
+  envelope: json
+  notes: >-
+    The API responds with application/json. The SDK treats any non-2xx status as
+    a failure and surfaces an error event; a discrete problem+json / error-code
+    registry is not published. See errors/ once the provider documents one.
+cross_links:
+  authentication: authentication/simulmedia-authentication.yml
+  data_model: data-model/simulmedia-data-model.yml

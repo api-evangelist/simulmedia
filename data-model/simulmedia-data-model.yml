@@ -1,0 +1,80 @@
+generated: '2026-07-21'
+method: derived
+source: https://github.com/simulmedia/playerwon-sdk (UnitySDK/Assets/PlayerWon-SDK/Classes)
+api: PlayerWON API
+notes: >-
+  Entity graph derived from the PlayerWON Unity SDK model classes. The PlayerWON
+  API brokers rewarded-video ad opportunities inside free-to-play games: a game
+  submits ClientDetails, receives an Opportunity (identified by a Receipt), plays
+  the creative, and reports lifecycle events keyed by that Receipt.
+entities:
+  - name: ClientDetails
+    description: Player + device + consent context sent when requesting an opportunity.
+    fields:
+      - {name: country, note: Two-letter ISO-3166 country code.}
+      - {name: idfa, note: Device advertising identifier.}
+      - {name: plat, note: Platform (pc, ps, xbox, android, mac, ios, ...).}
+      - {name: lang, note: ISO-639-3 language code.}
+      - {name: ip}
+      - {name: w, note: Viewport width in pixels.}
+      - {name: h, note: Viewport height in pixels.}
+      - {name: pid, note: Player gamer tag / id.}
+      - {name: pid_type, note: Id type (apple, epic, google, microsoft, nintendo, sony, steam, twitch).}
+      - {name: device}
+      - {name: coppa}
+      - {name: underage}
+      - {name: age}
+      - {name: slot_id, note: Game-specific value provided by PlayerWON.}
+      - {name: ls, note: Lifetime-spending flag.}
+      - {name: lsv, note: Lifetime spend value (Currency).}
+      - {name: rv, note: Reward(s) for watching the ad (CurrencyArray).}
+      - {name: gs, note: Whether the call originates on the game server.}
+      - {name: lt, note: Limit-tracking flag.}
+      - {name: gdpr}
+      - {name: gdpr_consent}
+      - {name: media_files, note: When true, all encoded video URLs are returned.}
+      - {name: max_length, note: Maximum ad length in seconds.}
+  - name: Opportunity
+    description: A rewarded-video ad opportunity returned to the game.
+    fields:
+      - {name: Receipt, note: Opportunity id / key for the playback lifecycle.}
+      - {name: Length, note: Ad length.}
+      - {name: CreativeURL}
+      - {name: VideoURL, note: Encoded video URL (via GetVideoURL).}
+  - name: Currency
+    description: A currency amount (real, virtual, or crypto).
+    fields:
+      - {name: type, note: CurrencyType enum (Real, Virtual, Crypto).}
+      - {name: code, note: Currency code (e.g. USD) or in-game currency.}
+  - name: CurrencyArray
+    description: A collection of Currency rewards.
+relationships:
+  - from: Opportunity
+    to: ClientDetails
+    kind: belongs_to
+    via: request
+    note: An opportunity is returned in response to a ClientDetails request.
+  - from: ClientDetails
+    to: Currency
+    kind: has_one
+    via: lsv
+    note: Lifetime spend value.
+  - from: ClientDetails
+    to: CurrencyArray
+    kind: has_many
+    via: rv
+    note: Rewards granted for watching the ad.
+  - from: Opportunity
+    to: Opportunity
+    kind: has_one
+    via: receipt
+    note: The Receipt keys the /start, /progress, /complete and /abort lifecycle calls.
+enums:
+  - {name: PlatformType, values: [Wildcard, Android, MacOS, IOS, PC, Playstation, Switch, Unknown, Xbox]}
+  - {name: PlayerIDType, values: [Apple, Epic, Google, Microsoft, Nintendo, Sony, Steam, Twitch]}
+  - {name: CurrencyType, values: [Real, Virtual, Crypto]}
+  - {name: OpportunityAbortReasons, values: [Cancel, Other]}
+  - {name: Gender, values: [m, f, n]}
+  - {name: SupportedCurrencies_count, values: 22}
+  - {name: SupportedLanguages_count, values: 14}
+  - {name: SupportedCountries_count, values: 249}

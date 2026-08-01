@@ -1,0 +1,26 @@
+generated: '2026-07-21'
+method: searched
+notes: >-
+  No real /.well-known/ discovery documents were found. simulmedia.com and its
+  api./developer./status. subdomains serve the marketing site as a catch-all
+  (200 responses return text/html, not the requested document). The PlayerWON API
+  host returns application/json 404 for well-known paths. Recorded here for audit;
+  no WellKnown pointer is wired because no genuine document exists.
+hosts:
+  - host: https://simulmedia.com
+    documents:
+      - {path: /.well-known/security.txt, status: 404}
+      - {path: /.well-known/openid-configuration, status: 404}
+  - host: https://developer.simulmedia.com
+    documents:
+      - {path: /.well-known/security.txt, status: 200, real: false, note: catch-all text/html (marketing site)}
+      - {path: /.well-known/openid-configuration, status: 200, real: false, note: catch-all text/html}
+  - host: https://api.simulmedia.com
+    documents:
+      - {path: /.well-known/openid-configuration, status: 200, real: false, note: catch-all text/html}
+      - {path: /.well-known/oauth-authorization-server, status: 200, real: false, note: catch-all text/html}
+      - {path: /.well-known/api-catalog, status: 200, real: false, note: catch-all text/html}
+  - host: https://game.simulmedia-apis.com
+    documents:
+      - {path: /.well-known/openid-configuration, status: 404, note: application/json (real API host, no discovery doc)}
+      - {path: /.well-known/oauth-authorization-server, status: 404, note: application/json}
