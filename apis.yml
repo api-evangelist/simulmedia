@@ -33,7 +33,7 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-21'
+modified: '2026-08-13'
 tags:
 - Company
 - Advertising
@@ -80,7 +80,21 @@ apis:
   - type: Conformance
     url: conformance/simulmedia-conformance.yml
   - type: SourceCode
-    url: https://github.com/simulmedia/playerwon-sdk
+    url: https://github.com/Simulmedia/playerwon-sdk
+  - type: ErrorCatalog
+    url: errors/simulmedia-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/simulmedia-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/simulmedia-lifecycle.yml
+  - type: Components
+    url: components/simulmedia-components.yml
+  - type: APIReference
+    url: https://github.com/Simulmedia/playerwon-sdk/blob/main/UnitySDK/README.MD
+  - type: Documentation
+    url: https://www.playerwon.com/playerwon-ad-server-api
+  - type: GettingStarted
+    url: https://github.com/Simulmedia/playerwon-sdk/blob/main/DevGameServer/README.MD
 common:
 - type: DomainSecurity
   url: security/simulmedia-domain-security.yml
@@ -89,7 +103,7 @@ common:
 - type: LLMsTxt
   url: llms/simulmedia-llms.txt
 - type: GitHubOrganization
-  url: https://github.com/simulmedia
+  url: https://github.com/Simulmedia
 - type: Blog
   url: https://simulmedia.com/blog
 - type: SignUp
@@ -102,8 +116,14 @@ common:
   url: https://simulmedia.com/privacy
 - type: TermsOfService
   url: https://simulmedia.com/terms
+- type: ChangeLog
+  url: changelog/simulmedia-changelog.yml
+- type: Plans
+  url: plans/simulmedia-plans-pricing.yml
+- type: DeveloperPortal
+  url: https://www.playerwon.com/developers
 x-enrichment:
-  date: '2026-07-21'
+  date: '2026-08-13'
   status: enriched
-  artifacts_added: 10
+  artifacts_added: 8
   pass: local-v1
