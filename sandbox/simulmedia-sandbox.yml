@@ -1,0 +1,69 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://github.com/Simulmedia/playerwon-sdk (DevGameServer/README.MD,
+  UnitySDK example scene, PlayerWONSDK example levels)
+api: PlayerWON API
+sandbox_environment: false
+test_credentials_published: false
+summary: >-
+  PlayerWON publishes NO sandbox environment and NO test credentials. There is one
+  base URL (https://game.simulmedia-apis.com), one credential type, and no
+  test-vs-live key prefix or mode switch: a developer integrates against
+  production from the first call, using client credentials issued by PlayerWON.
+  What the provider does ship is a local development harness, recorded below so
+  the distinction is not lost — a local dev server that brokers real production
+  credentials is not a sandbox.
+local_dev_harness:
+  name: PlayerWON Example Game Server (DevGameServer)
+  purpose: >-
+    "A local game server you can run which will handle the /token/ endpoint for
+    you. Useful if you don't have your own game server ready yet." In production
+    the game's own server hosts this exchange.
+  runs_on: [Windows 10/11, Linux, macOS]
+  distribution: >-
+    Prebuilt binaries in the GitHub release assets, or `go build` from
+    DevGameServer/cmd/gameserver (go 1.19).
+  configuration:
+    environment_variables:
+      - name: PORT
+        required: false
+        note: Defaults to a random free port.
+      - name: CLIENT_ID
+        required: true
+        note: REAL PlayerWON client id. No test value is published.
+      - name: CLIENT_SECRET
+        required: true
+        note: REAL PlayerWON client secret. No test value is published.
+      - name: GAMETITLE_ID
+        required: true
+        note: REAL PlayerWON game title id (sent to /token as `tid`).
+  endpoints:
+    - method: POST
+      path: http://localhost:{PORT}/login/{user_id}
+      returns: An access token string, or an error string.
+      note: >-
+        `{user_id}` is passed to the PlayerWON API as `idfa`
+        (Identification For Advertisers).
+  calls_production: true
+  note: >-
+    The harness proxies straight to https://game.simulmedia-apis.com/token with
+    the operator's live credentials. Nothing is mocked.
+example_projects:
+  - name: Unity example scene
+    path: UnitySDK/Assets/PlayerWon-SDK/Examples/ExampleScript.cs
+  - name: Unreal Blueprint example level
+    path: PlayerWONSDK/Plugins/PlayerWONSDKPlugin/Content/Examples/Levels/BlueprintExampleLevel.umap
+  - name: Unreal native example level
+    path: PlayerWONSDK/Plugins/PlayerWONSDKPlugin/Content/Examples/Levels/NativeExampleLevel.umap
+  - name: Bundled placeholder creative
+    path: PlayerWONSDK/Plugins/PlayerWONSDKPlugin/Content/Media/PlayerWON_Static30s.mp4
+    note: >-
+      A 30-second static video shipped with the plugin so the ad surface can be
+      exercised without a live opportunity. The closest thing to a fixture the
+      provider publishes.
+gaps:
+  - No sandbox host or test mode.
+  - No test client_id / client_secret / game title id.
+  - No test-vs-live key prefix or environment flag.
+  - No fixture or trigger tooling for opportunity, completion or abort scenarios.

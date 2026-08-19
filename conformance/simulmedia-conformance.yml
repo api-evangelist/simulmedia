@@ -1,6 +1,9 @@
-generated: '2026-07-21'
-method: derived
-source: https://github.com/simulmedia/playerwon-sdk
+generated: '2026-08-13'
+method: probed
+source: >-
+  https://github.com/Simulmedia/playerwon-sdk, live probes of
+  https://game.simulmedia-apis.com and every Simulmedia/PlayerWON/Skybeam host,
+  and https://www.simulmedia.com/privacy (2026-08-13)
 api: PlayerWON API
 standards:
   - id: oauth2
@@ -8,21 +11,109 @@ standards:
     evidence: PlayerWON API issues tokens via an OAuth2 client_credentials /token endpoint.
   - id: oauth2-client-credentials
     conforms: true
-    evidence: /token accepts grant_type=client_credentials with client_id/client_secret.
+    evidence: >-
+      /token accepts grant_type=client_credentials with client_id/client_secret,
+      plus the non-standard `tid` (game title id) and optional `idfa` parameters.
+      Probed 2026-08-13: omitting client_id returns 400 {"message":"client_id: no value"}.
   - id: bearer-token
     conforms: true
     evidence: Access token is sent as Authorization Bearer on all API calls.
-  - id: gdpr-consent-signaling
-    conforms: true
-    evidence: ClientDetails carries gdpr and gdpr_consent flags.
-  - id: coppa-signaling
-    conforms: true
-    evidence: ClientDetails carries coppa and underage flags.
+  - id: oauth2-scopes
+    conforms: false
+    evidence: >-
+      No scope parameter and no scope reference. The token grants the full
+      game-title surface, so no scopes/ artifact is emitted.
+  - id: rfc8414-oauth-authorization-server-metadata
+    conforms: false
+    evidence: /.well-known/oauth-authorization-server returns 404 on the API host.
   - id: oidc
     conforms: false
+    evidence: /.well-known/openid-configuration returns 404 on every host probed.
   - id: rfc9457-problem-details
     conforms: false
-    evidence: No application/problem+json error envelope documented.
+    evidence: >-
+      Errors are application/json {"message": "..."} with no type/title/status/detail
+      and no machine-readable code. Probed 400/401/404 on 2026-08-13.
   - id: openapi-published
     conforms: false
-    evidence: No public OpenAPI/Swagger definition found.
+    evidence: >-
+      No OpenAPI/Swagger definition. /openapi.json, /openapi.yaml, /swagger.json,
+      /v1/openapi.json, /api-docs, /docs and /redoc all return 404 on the API host;
+      the api./developer. subdomains answer 200 with an SPA HTML shell for every path.
+  - id: graphql
+    conforms: false
+    evidence: /graphql returns 404 on the API host.
+  - id: asyncapi-published
+    conforms: false
+    evidence: >-
+      No event surface to describe. /sdk/telemetry is outbound SDK instrumentation;
+      no webhooks, callbacks or streams are offered to consumers.
+  - id: rfc9116-security-txt
+    conforms: false
+    evidence: /.well-known/security.txt returns 404 (or an SPA shell) on all hosts.
+  - id: rfc8615-well-known
+    conforms: false
+    evidence: No genuine /.well-known/ document served. See well-known/simulmedia-well-known.yml.
+  - id: a2a-agent-card
+    conforms: false
+    evidence: >-
+      /.well-known/agent-card.json and /.well-known/agent.json return 404 on every
+      Simulmedia, PlayerWON, Skybeam and platform host; the only 200s are the
+      api./developer. SPA catch-all serving HTML.
+  - id: rfc8594-sunset-header
+    conforms: false
+    evidence: No Sunset or Deprecation header observed; no deprecation policy published.
+  - id: hsts
+    conforms: true
+    evidence: >-
+      game.simulmedia-apis.com returns strict-transport-security max-age=31536000;
+      includeSubDomains on API responses (observed 2026-08-13). simulmedia.com and
+      www.playerwon.com return max-age=63072000.
+  - id: tls-1-3
+    conforms: true
+    evidence: All probed hosts negotiate TLSv1.3.
+  - id: dnssec
+    conforms: false
+    evidence: Neither simulmedia.com nor playerwon.com is DNSSEC-signed; no CAA records.
+  - id: cors
+    conforms: true
+    evidence: >-
+      API returns access-control-allow-origin *, allow-methods GET, OPTIONS, POST,
+      PUT and allow-headers *.
+  - id: gdpr-consent-signaling
+    conforms: true
+    evidence: >-
+      ClientDetails and SessionDetails both carry gdpr and gdpr_consent flags, and
+      the privacy policy cites Regulation (EU) 2016/679 and EU Standard
+      Contractual Clauses.
+  - id: coppa-signaling
+    conforms: true
+    evidence: >-
+      ClientDetails and SessionDetails carry coppa, underage and age flags; the
+      privacy policy names COPPA explicitly.
+  - id: ccpa-cpra
+    conforms: true
+    evidence: >-
+      Privacy policy cites the California Consumer Privacy Act (California Civil
+      Code Section 1798.100 et seq.).
+  - id: limit-ad-tracking
+    conforms: true
+    evidence: ClientDetails/SessionDetails carry the `lt` limit-tracking flag.
+  - id: soc2
+    conforms: false
+    evidence: No SOC 2 claim published; no trust center (trust.simulmedia.com resolves to the marketing homepage).
+  - id: iso-27001
+    conforms: false
+    evidence: No ISO 27001 claim published.
+  - id: adtech-self-regulation
+    conforms: false
+    evidence: >-
+      No IAB TCF, TAG, NAI or DAA membership or badge is claimed on the privacy
+      policy or the site — unusual for an adtech provider and worth raising with
+      the provider.
+certifications_published: []
+note: >-
+  No named third-party certification or audited compliance program is published,
+  so no Compliance or TrustCenter pointer is wired. Regulatory frameworks are
+  cited in the privacy policy; that is a statement of applicable law, not a
+  certification.

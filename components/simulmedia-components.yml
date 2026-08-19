@@ -1,0 +1,85 @@
+generated: '2026-08-13'
+method: searched
+source: https://github.com/Simulmedia/playerwon-sdk
+api: PlayerWON API
+summary: >-
+  PlayerWON ships prebuilt, drop-in client-side components for game engines rather
+  than for the web. These are the embedded-surface equivalent of a web element
+  library: a developer places the component in a scene/level, wires two or three
+  callbacks, and the rewarded-video ad surface — playback, progress reporting and
+  reward completion — is rendered and driven by the component instead of by
+  hand-written API calls. Distinct from the client libraries in packages/, which
+  are the transport layer these components sit on.
+families:
+  - name: PlayerWON Bridge
+    engines: [unity, unreal]
+    kind: scene component
+    description: >-
+      The component that owns the whole opportunity lifecycle. Placed in the scene
+      (Unity prefab) or spawned as an actor (Unreal), it performs the session,
+      opportunity, start, progress, complete and abort calls and raises engine
+      events for each.
+    artifacts:
+      - engine: unity
+        path: UnitySDK/Assets/PlayerWon-SDK/Prefabs/PlayerWON.prefab
+        note: Drop-in prefab.
+      - engine: unreal
+        path: PlayerWONSDK/Plugins/PlayerWONSDKPlugin/Source/PlayerWONSDKPlugin/Public/SDK/PlayerWONBridge.h
+        note: APlayerWONBridge (AActor); every entry point is BlueprintCallable under the PLAYERWON category, so the surface is usable from Blueprints without C++.
+      - engine: unreal
+        path: PlayerWONSDK/Plugins/PlayerWONSDKPlugin/Content/Examples/Blueprints/ExampleBridge_BP.uasset
+    events:
+      - AuthorizationSuccessful
+      - OpportunityEvent
+      - StartEvent
+      - ProgressEvent
+      - CompleteEvent
+      - AbortEvent
+    source_events: UnitySDK/Assets/PlayerWon-SDK/Classes/Events.cs
+  - name: Ad playback surface
+    engines: [unreal]
+    kind: media components
+    description: >-
+      Prebuilt media player, material and texture assets that render the returned
+      creative. The plugin also bundles a 30-second static placeholder video so the
+      surface can be exercised before a live opportunity is available.
+    artifacts:
+      - PlayerWONSDK/Plugins/PlayerWONSDKPlugin/Content/Media/PlayerWONMediaPlayer.uasset
+      - PlayerWONSDK/Plugins/PlayerWONSDKPlugin/Content/Media/PlayerWONMediaPlayer_Video.uasset
+      - PlayerWONSDK/Plugins/PlayerWONSDKPlugin/Content/Media/PlayerWONMaterial.uasset
+      - PlayerWONSDK/Plugins/PlayerWONSDKPlugin/Content/Media/PlayerWON_Static30s.mp4
+  - name: Example UI widgets
+    engines: [unreal]
+    kind: ui widgets
+    description: >-
+      Reference widgets for the player-facing offer/reward UI, in both Blueprint
+      and native C++ form, plus the branded logo and dot/selection materials used
+      by them.
+    artifacts:
+      - PlayerWONSDK/Plugins/PlayerWONSDKPlugin/Content/Examples/Blueprints/UI/ExampleNativeWidget_BP.uasset
+      - PlayerWONSDK/Plugins/PlayerWONSDKPlugin/Source/PlayerWONSDKPlugin/Public/Examples/ExampleWidget_Native.h
+      - PlayerWONSDK/Plugins/PlayerWONSDKPlugin/Content/Examples/Materials/PLAYERWON_LOGO_DEFAULT.uasset
+  - name: Telemetry component
+    engines: [unity, unreal]
+    kind: attachable component
+    description: >-
+      BlueprintSpawnableComponent (UTelemetryComponent, a UActorComponent) that
+      collects SDK init/auth/error messages and POSTs them to
+      https://game.simulmedia-apis.com/sdk/telemetry. Can be toggled by the host
+      game via SetSendTelemetryData.
+    artifacts:
+      - PlayerWONSDK/Plugins/PlayerWONSDKPlugin/Source/PlayerWONSDKPlugin/Public/SDK/TelemetryComponent.h
+      - UnitySDK/Assets/PlayerWon-SDK/Classes/Telemetry.cs
+loaders:
+  - engine: unity
+    method: Import the UnitySDK package, add the PlayerWON prefab to the scene.
+    engine_version_built_against: Unity 2021.3.32f1
+  - engine: unreal
+    method: Copy PlayerWONSDKPlugin into the project's Plugins directory, or install from the FAB store listing.
+    engine_version: '5.5'
+    platform_allow_list: [Win64]
+web_components: none
+note: >-
+  No web/JavaScript embeddable components are published. The Skybeam and TV+
+  platforms are hosted applications behind a sign-in
+  (https://platform.simulmedia.com/), with no embed or element library exposed.

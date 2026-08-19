@@ -1,0 +1,82 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://github.com/Simulmedia/playerwon-sdk (releases, commit history, plugin
+  manifest), live probes of https://game.simulmedia-apis.com and
+  https://simulmedia.statuspage.io (2026-08-13)
+api: PlayerWON API
+versioning:
+  api:
+    scheme: none
+    in_path: false
+    in_header: false
+    note: >-
+      The PlayerWON API is served unversioned at the host root
+      (https://game.simulmedia-apis.com/token, /session, /opportunity,
+      /start/{receipt}, ...). No version segment, no version header, no
+      Accept-media-type versioning is documented or observable.
+  sdk:
+    scheme: semver
+    current: '1.0.0'
+    note: >-
+      The SDK is versioned independently of the API. GitHub releases are tagged
+      v0.9.0 and v1.0.0; the Unreal plugin manifest declares VersionName "1.0"
+      and the Unreal bridge compiles SDK_VERSION "1.0", which the SDK reports to
+      the API as `pw_sdk_ver` on the /sdk/telemetry init message.
+    source: PlayerWONSDK/Plugins/PlayerWONSDKPlugin/PlayerWONSDKPlugin.uplugin
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  note: >-
+    No deprecation or sunset policy is published for the API or the SDK, and no
+    Sunset/Deprecation response header was observed. The Unreal SDK was migrated
+    UE4.27 -> UE5.1 -> UE5.5 during March 2025 with no published deprecation
+    notice for the prior engine builds; the plugin now declares
+    PlatformAllowList ["Win64"] and EngineVersion 5.5 only.
+sla:
+  published: false
+  note: No SLA or uptime commitment is published for the PlayerWON API.
+status_page:
+  published: false
+  probed: '2026-08-13'
+  findings:
+    - url: https://simulmedia.statuspage.io
+      status: 200
+      final_url: https://simulmedia.statuspage.io/inactive
+      note: >-
+        An Atlassian Statuspage tenant exists for Simulmedia but is INACTIVE:
+        "This page is currently inactive and can only be viewed by team members."
+        No public component or incident data is served.
+    - url: https://status.simulmedia.com
+      status: 200
+      note: >-
+        Wildcard DNS; the request resolves to the marketing site and the response
+        is the www.simulmedia.com homepage, not a status page. Not a status
+        surface.
+  conclusion: >-
+    No public status page. The Statuspage tenant is provisioned but disabled, so
+    no StatusPage pointer is wired.
+support:
+  channels:
+    - type: email
+      value: info@playerwon.com
+      source: PlayerWONSDKPlugin.uplugin (SupportURL)
+    - type: form
+      value: https://www.playerwon.com/contact
+    - type: form
+      value: https://www.simulmedia.com/contact-us
+    - type: issues
+      value: https://github.com/Simulmedia/playerwon-sdk/issues
+maintenance:
+  last_api_surface_change_observed: unknown
+  last_sdk_commit: '2025-03-24'
+  last_sdk_release: '2022-10-03'
+  decay_signal: >-
+    The published SDK releases are from 2022 while the repository was actively
+    worked in March 2025 for the FAB store submission — the release channel is
+    stale relative to main, so a developer taking "the latest release from
+    GitHub" (as DevGameServer/README.MD instructs) gets a build that predates the
+    UE5.5 plugin by two and a half years.
+deprecated_operations: []

@@ -1,0 +1,51 @@
+generated: '2026-08-13'
+method: probed
+source: >-
+  Live unauthenticated probes of https://game.simulmedia-apis.com (2026-08-13);
+  documentation search across playerwon.com, simulmedia.com and the first-party
+  SDK repository https://github.com/Simulmedia/playerwon-sdk.
+api: PlayerWON API
+base_url: https://game.simulmedia-apis.com
+limit_count: 0
+rate_limits: []
+headers:
+  observed: []
+  documented: []
+  note: >-
+    No RateLimit-*, X-RateLimit-* or Retry-After header was returned on any
+    observed response (POST /token 400, POST /session 401, POST /opportunity 401,
+    GET / 404). The response header set is Cloudflare's plus CORS and cache
+    directives only.
+observed_response_headers:
+  - server
+  - cf-ray
+  - cf-cache-status
+  - access-control-allow-origin
+  - access-control-allow-methods
+  - access-control-allow-headers
+  - cache-control
+  - pragma
+  - referrer-policy
+  - strict-transport-security
+  - x-content-type-options
+  - x-frame-options
+exhaustion_status_code: null
+notes: >-
+  PlayerWON publishes no rate-limit policy. The API reference is distributed as a
+  Google Drive PDF linked from https://www.playerwon.com/playerwon-ad-server-api
+  and the SDK documentation in the repository README files; neither states a
+  quota, a burst allowance, or a 429 behaviour. An honest zero: limits may exist
+  and be enforced per game-title credential, but nothing is published and nothing
+  was observable without authenticated traffic.
+evidence:
+  - url: https://game.simulmedia-apis.com/token
+    method: POST
+    http_status: 400
+    rate_limit_headers: none
+  - url: https://game.simulmedia-apis.com/opportunity
+    method: POST
+    http_status: 401
+    rate_limit_headers: none
+  - url: https://github.com/Simulmedia/playerwon-sdk
+    http_status: 200
+    finding: SDK README and per-SDK documentation contain no rate-limit section.

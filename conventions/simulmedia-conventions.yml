@@ -1,6 +1,8 @@
-generated: '2026-07-21'
+generated: '2026-08-13'
 method: searched
-source: https://github.com/simulmedia/playerwon-sdk
+source: >-
+  https://github.com/Simulmedia/playerwon-sdk plus live probes of
+  https://game.simulmedia-apis.com (2026-08-13)
 api: PlayerWON API
 base_url: https://game.simulmedia-apis.com
 authentication:
@@ -45,6 +47,12 @@ endpoints:
     path: /abort/{receipt}
     query: {reason: abort reason, t: seconds into video}
     summary: Signal that the opportunity was aborted before completion.
+  - method: POST
+    path: /sdk/telemetry
+    summary: >-
+      SDK instrumentation sink. The Unity/Unreal SDKs POST init, auth and error
+      messages here. Unauthenticated in the SDK implementation.
+    source: UnitySDK/Assets/PlayerWon-SDK/Classes/Telemetry.cs
 pagination:
   supported: false
   notes: No pagination surface documented; /opportunity returns a bounded opportunity set.
@@ -56,6 +64,30 @@ versioning:
   notes: No explicit API version in the base path; the SDK targets the unversioned host.
 rate_limiting:
   documented: false
+  headers_observed: []
+  notes: >-
+    No RateLimit-*, X-RateLimit-* or Retry-After header was returned on any live
+    probe (2026-08-13). See rate-limits/simulmedia-rate-limits.yml.
+transport:
+  tls: TLSv1.3
+  edge: Cloudflare
+  hsts_observed: 'max-age=31536000; includeSubDomains'
+  hsts_note: >-
+    Observed directly on POST /token, POST /session and GET / responses from
+    game.simulmedia-apis.com on 2026-08-13. The automated domain-security probe
+    records hsts: null for this host; the header is in fact present on API
+    responses.
+  cors:
+    access_control_allow_origin: '*'
+    access_control_allow_methods: GET, OPTIONS, POST, PUT
+    access_control_allow_headers: '*'
+  cache: 'no-store, private (plus Pragma: no-cache) on every response'
+  security_headers: [x-content-type-options, x-frame-options, referrer-policy]
+  request_correlation:
+    header: cf-ray
+    note: >-
+      The only per-request identifier returned. There is no first-party
+      request-id / trace header.
 privacy_and_consent:
   description: >-
     The ClientDetails request payload carries first-class consent / compliance
@@ -68,10 +100,37 @@ privacy_and_consent:
     lt: Limit-tracking flag; 1 when the player opted into limited ad tracking.
 error_handling:
   envelope: json
+  shape: '{"message": "<free text>"}'
+  rfc9457: false
+  error_code_field: none
+  statuses_observed: [400, 401, 404]
   notes: >-
-    The API responds with application/json. The SDK treats any non-2xx status as
-    a failure and surfaces an error event; a discrete problem+json / error-code
-    registry is not published. See errors/ once the provider documents one.
+    Confirmed by live probe 2026-08-13: the API returns a single-field JSON object
+    with a human-readable `message` and no machine-readable code. 400 names the
+    missing field ("client_id: no value"); 401 is the flat string "Unauthorized";
+    an unknown path returns "Not Found". The SDK treats any non-2xx as a failure
+    and raises an error event. Full catalog in
+    errors/simulmedia-problem-types.yml.
+telemetry:
+  endpoint: POST /sdk/telemetry
+  content_type: application/json
+  auth: none observed (the SDK posts the telemetry message without a Bearer token)
+  message_types: [init, auth, error]
+  fields:
+    common: [type, sdk_id, message]
+    init: [idfa, pw_sdk_ver, engine_ver, gametitle_id]
+    error: [stack_trace]
+  toggle: >-
+    The host game can disable it (Unreal: SetSendTelemetryData on the
+    PlayerWONBridge).
+  source: UnitySDK/Assets/PlayerWon-SDK/Classes/Telemetry.cs
+  note: >-
+    Outbound SDK-to-API instrumentation, not a webhook or subscribable event
+    stream. There is no callback/event surface for consumers, which is why no
+    AsyncAPI or Webhooks artifact is emitted.
 cross_links:
   authentication: authentication/simulmedia-authentication.yml
   data_model: data-model/simulmedia-data-model.yml
+  errors: errors/simulmedia-problem-types.yml
+  rate_limits: rate-limits/simulmedia-rate-limits.yml
+  lifecycle: lifecycle/simulmedia-lifecycle.yml

@@ -1,26 +1,99 @@
-generated: '2026-07-21'
-method: searched
+generated: '2026-08-13'
+method: probed
+source: live probes of every apis.yml, product and API host (2026-08-13)
 notes: >-
-  No real /.well-known/ discovery documents were found. simulmedia.com and its
-  api./developer./status. subdomains serve the marketing site as a catch-all
-  (200 responses return text/html, not the requested document). The PlayerWON API
-  host returns application/json 404 for well-known paths. Recorded here for audit;
-  no WellKnown pointer is wired because no genuine document exists.
+  No genuine /.well-known/ discovery document is served on any Simulmedia,
+  PlayerWON or Skybeam host. Two distinct failure shapes were observed and are
+  distinguished below, because they mean different things:
+    * status 404 with application/json  — the real API host answering honestly.
+    * status 404 with text/html          — the marketing/product sites answering honestly.
+    * status 200 with text/html          — a single-page-app catch-all on
+      api.simulmedia.com and developer.simulmedia.com that returns the SAME
+      153,933-byte HTML shell for every path requested. These are NOT documents
+      and are recorded as real: false.
+  No WellKnown and no SecurityTxt pointer is wired in apis.yml, because a probe
+  that records an absence must not be scored as a presence.
 hosts:
   - host: https://simulmedia.com
     documents:
-      - {path: /.well-known/security.txt, status: 404}
-      - {path: /.well-known/openid-configuration, status: 404}
-  - host: https://developer.simulmedia.com
+      - {path: /.well-known/security.txt, status: 404, real: false}
+      - {path: /.well-known/openid-configuration, status: 404, real: false}
+      - {path: /.well-known/oauth-authorization-server, status: 404, real: false}
+      - {path: /.well-known/oauth-protected-resource, status: 404, real: false}
+      - {path: /.well-known/api-catalog, status: 404, real: false}
+      - {path: /.well-known/ai-plugin.json, status: 404, real: false}
+      - {path: /.well-known/agent-card.json, status: 404, real: false}
+      - {path: /.well-known/agent.json, status: 404, real: false}
+  - host: https://www.simulmedia.com
     documents:
-      - {path: /.well-known/security.txt, status: 200, real: false, note: catch-all text/html (marketing site)}
-      - {path: /.well-known/openid-configuration, status: 200, real: false, note: catch-all text/html}
-  - host: https://api.simulmedia.com
-    documents:
-      - {path: /.well-known/openid-configuration, status: 200, real: false, note: catch-all text/html}
-      - {path: /.well-known/oauth-authorization-server, status: 200, real: false, note: catch-all text/html}
-      - {path: /.well-known/api-catalog, status: 200, real: false, note: catch-all text/html}
+      - {path: /.well-known/security.txt, status: 404, real: false}
+      - {path: /.well-known/openid-configuration, status: 404, real: false}
+      - {path: /.well-known/api-catalog, status: 404, real: false}
+      - {path: /.well-known/agent-card.json, status: 404, real: false}
+      - {path: /.well-known/agent.json, status: 404, real: false}
   - host: https://game.simulmedia-apis.com
+    note: The real PlayerWON API host. Answers application/json 404 for every well-known path.
     documents:
-      - {path: /.well-known/openid-configuration, status: 404, note: application/json (real API host, no discovery doc)}
-      - {path: /.well-known/oauth-authorization-server, status: 404, note: application/json}
+      - {path: /.well-known/security.txt, status: 404, real: false}
+      - {path: /.well-known/openid-configuration, status: 404, real: false}
+      - {path: /.well-known/oauth-authorization-server, status: 404, real: false}
+      - {path: /.well-known/oauth-protected-resource, status: 404, real: false}
+      - {path: /.well-known/api-catalog, status: 404, real: false}
+      - {path: /.well-known/ai-plugin.json, status: 404, real: false}
+      - {path: /.well-known/agent-card.json, status: 404, real: false}
+      - {path: /.well-known/agent.json, status: 404, real: false}
+  - host: https://www.playerwon.com
+    documents:
+      - {path: /.well-known/security.txt, status: 404, real: false}
+      - {path: /.well-known/openid-configuration, status: 404, real: false}
+      - {path: /.well-known/oauth-authorization-server, status: 404, real: false}
+      - {path: /.well-known/api-catalog, status: 404, real: false}
+      - {path: /.well-known/agent-card.json, status: 404, real: false}
+      - {path: /.well-known/agent.json, status: 404, real: false}
+  - host: https://api.simulmedia.com
+    note: SPA catch-all. Every path returns the identical 153,933-byte HTML shell with status 200.
+    documents:
+      - {path: /.well-known/security.txt, status: 200, real: false, content_type: text/html}
+      - {path: /.well-known/openid-configuration, status: 200, real: false, content_type: text/html}
+      - {path: /.well-known/oauth-authorization-server, status: 200, real: false, content_type: text/html}
+      - {path: /.well-known/oauth-protected-resource, status: 200, real: false, content_type: text/html}
+      - {path: /.well-known/api-catalog, status: 200, real: false, content_type: text/html}
+      - {path: /.well-known/ai-plugin.json, status: 200, real: false, content_type: text/html}
+      - {path: /.well-known/agent-card.json, status: 200, real: false, content_type: text/html}
+      - {path: /.well-known/agent.json, status: 200, real: false, content_type: text/html}
+  - host: https://developer.simulmedia.com
+    note: Same SPA catch-all shell as api.simulmedia.com.
+    documents:
+      - {path: /.well-known/security.txt, status: 200, real: false, content_type: text/html}
+      - {path: /.well-known/openid-configuration, status: 200, real: false, content_type: text/html}
+  - host: https://platform.simulmedia.com
+    note: The Skybeam / TV+ application sign-in.
+    documents:
+      - {path: /.well-known/security.txt, status: 404, real: false}
+      - {path: /.well-known/openid-configuration, status: 404, real: false}
+      - {path: /.well-known/oauth-authorization-server, status: 404, real: false}
+      - {path: /.well-known/oauth-protected-resource, status: 404, real: false}
+      - {path: /.well-known/agent-card.json, status: 404, real: false}
+      - {path: /.well-known/agent.json, status: 404, real: false}
+  - host: https://app.simulmedia.com
+    documents:
+      - {path: /.well-known/security.txt, status: 404, real: false, content_type: application/json}
+      - {path: /.well-known/openid-configuration, status: 404, real: false, content_type: application/json}
+      - {path: /.well-known/oauth-authorization-server, status: 404, real: false, content_type: application/json}
+      - {path: /.well-known/agent-card.json, status: 404, real: false, content_type: application/json}
+      - {path: /.well-known/agent.json, status: 404, real: false, content_type: application/json}
+  - host: https://www.skybeam.io
+    note: Simulmedia's self-serve platform product site.
+    documents:
+      - {path: /.well-known/security.txt, status: 404, real: false}
+      - {path: /.well-known/openid-configuration, status: 404, real: false}
+      - {path: /.well-known/api-catalog, status: 404, real: false}
+      - {path: /.well-known/agent-card.json, status: 404, real: false}
+      - {path: /.well-known/agent.json, status: 404, real: false}
+summary:
+  documents_found: 0
+  security_txt: false
+  openid_configuration: false
+  oauth_authorization_server: false
+  api_catalog: false
+  agent_card: false

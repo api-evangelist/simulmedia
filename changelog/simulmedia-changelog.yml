@@ -1,0 +1,65 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://github.com/Simulmedia/playerwon-sdk/releases,
+  https://github.com/Simulmedia/playerwon-sdk/commits/main,
+  https://www.skybeam.io/blog (dated product-update series)
+scheme: >-
+  Simulmedia publishes no API changelog. The only dated, versioned change record
+  for the developer surface is the PlayerWON SDK's GitHub release/commit history;
+  platform changes are announced as dated "product updates" blog posts on the
+  Skybeam product site. Both are recorded here.
+current_version:
+  sdk: '1.0.0'
+  api: unversioned
+surfaces:
+  - kind: sdk-releases
+    url: https://github.com/Simulmedia/playerwon-sdk/releases
+    dated: true
+    machine_readable: https://github.com/Simulmedia/playerwon-sdk/releases.atom
+  - kind: sdk-commits
+    url: https://github.com/Simulmedia/playerwon-sdk/commits/main
+    dated: true
+    machine_readable: https://github.com/Simulmedia/playerwon-sdk/commits/main.atom
+  - kind: product-updates
+    url: https://www.skybeam.io/blog
+    dated: true
+    note: >-
+      Monthly "product updates" posts for Skybeam (Simulmedia's self-serve
+      platform), e.g. skybeam-product-updates-january-2025, april-product-updates,
+      june-product-updates, smarter-traditional-tv-starts-here-skybeam-december-updates.
+      Marketing-voice release notes for the buying platform, not the API.
+entries:
+  - version: '1.0.0'
+    date: '2022-10-03'
+    url: https://github.com/Simulmedia/playerwon-sdk/releases/tag/v1.0.0
+    breaking: false
+    highlights:
+      - Added the Unreal 4 and Unreal 5 SDKs alongside the Unity SDK.
+      - Shipped the Example Game Server (DevGameServer) binaries.
+  - version: '0.9.0'
+    date: '2022-09-30'
+    url: https://github.com/Simulmedia/playerwon-sdk/releases/tag/v0.9.0
+    breaking: false
+    highlights:
+      - First release of the PlayerWON SDK.
+      - Unity package and Dev Game Server binary; Unreal SDK deferred to the next release.
+unreleased_changes:
+  note: >-
+    Work merged to main after the v1.0.0 tag and never cut as a release. Dates are
+    commit dates from the repository's own history.
+  entries:
+    - date: '2025-03-24'
+      summary: Documentation for updating Unreal Engine (#22).
+    - date: '2025-03-19'
+      summary: Third FAB store submission (#21).
+    - date: '2025-03-17'
+      summary: Second FAB store submission (#20).
+    - date: '2025-03-14'
+      summary: FAB submission fixes; packaged first plugin; plugin updated to UE5.5 (#12-#16).
+    - date: '2025-03-04'
+      summary: SDK updated from UE4.27 to UE5.1 (#10).
+gaps:
+  - No API changelog, release notes page, or version history for the PlayerWON API itself.
+  - No CHANGELOG.md in the SDK repository.
+  - Release tags stopped in 2022 while development continued through March 2025.

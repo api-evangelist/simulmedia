@@ -1,35 +1,99 @@
-generated: '2026-07-21'
+generated: '2026-08-13'
 method: searched
-source: https://github.com/simulmedia/playerwon-sdk
+source: >-
+  https://github.com/Simulmedia/playerwon-sdk (+ releases.atom, commits/main.atom),
+  PlayerWONSDKPlugin.uplugin, and negative lookups against npm, PyPI, RubyGems,
+  NuGet, crates.io (2026-08-13)
 notes: >-
-  Simulmedia publishes one first-party client SDK: the PlayerWON SDK for game
-  engines (Unity and Unreal), distributed as source on GitHub rather than via a
-  language package registry. No npm / PyPI / NuGet / Maven / crates.io first-party
-  package for the PlayerWON API was found. The SDK integrates rewarded-video ad
-  opportunities against the PlayerWON API at https://game.simulmedia-apis.com.
+  Simulmedia publishes one first-party client SDK — the PlayerWON SDK for game
+  engines (Unity and Unreal) — plus a reference game server. It is distributed as
+  source and as GitHub release assets, and the Unreal plugin is also listed on
+  Epic's FAB store; there is no language package-registry presence. Every
+  registry lookup below returned a miss, so `version` is read from the GitHub
+  release tags and the plugin manifest instead.
+registry_lookups:
+  checked: '2026-08-13'
+  results:
+    - {registry: npm, query: playerwon, status: 404}
+    - {registry: npm, query: simulmedia, status: 404}
+    - {registry: npm, query: 'search text=playerwon', status: 200, matches: 0}
+    - {registry: pypi, query: playerwon, status: 404}
+    - {registry: pypi, query: simulmedia, status: 404}
+    - {registry: rubygems, query: playerwon, status: 404}
+    - {registry: nuget, query: playerwon, status: 404}
+    - {registry: crates.io, query: playerwon, status: 403, note: crates.io rejects the unauthenticated user agent; treated as unverified, not as a hit.}
 packages:
   - language: csharp
     engine: unity
     registry: github
     name: PlayerWON SDK (Unity)
-    repo: https://github.com/simulmedia/playerwon-sdk
+    repo: https://github.com/Simulmedia/playerwon-sdk
     path: UnitySDK/
     install: Import the UnitySDK package from the playerwon-sdk repository into your Unity project.
     official: true
+    version: '1.0.0'
+    published: '2022-10-03'
+    version_source: https://github.com/Simulmedia/playerwon-sdk/releases/tag/v1.0.0
+    built_against: Unity 2021.3.32f1
+    note: >-
+      Latest tagged release. The repository has been worked on since (last commit
+      2025-03-24) but no release has been cut, so a developer following the
+      repository's own instruction to "download the latest release from GitHub"
+      receives a 2022 build.
   - language: cpp
     engine: unreal
     registry: github
-    name: PlayerWON SDK (Unreal)
-    repo: https://github.com/simulmedia/playerwon-sdk
-    path: PlayerWONSDK/
+    name: PlayerWON SDK (Unreal) — PlayerWONSDKPlugin
+    repo: https://github.com/Simulmedia/playerwon-sdk
+    path: PlayerWONSDK/Plugins/PlayerWONSDKPlugin/
     install: Add the PlayerWONSDKPlugin from the playerwon-sdk repository to your Unreal project's Plugins directory.
     official: true
+    version: '1.0'
+    published: '2025-03-24'
+    version_source: PlayerWONSDK/Plugins/PlayerWONSDKPlugin/PlayerWONSDKPlugin.uplugin (VersionName "1.0", Version 1)
+    engine_version: '5.5'
+    platforms: [Win64]
+    note: >-
+      The plugin manifest has not moved off VersionName "1.0" across the UE4.27 ->
+      UE5.1 -> UE5.5 migrations, so the declared version does not distinguish the
+      builds. `published` is the date of the last commit touching the plugin, not
+      a release date — no tagged release contains the UE5.5 plugin.
+  - language: cpp
+    engine: unreal
+    registry: cdn
+    name: PlayerWONSDK on the FAB store
+    url: https://www.fab.com/listings/fd9e6c45-faa5-486a-b5a2-f79cfbe668d5
+    launcher_url: com.epicgames.launcher://ue/Fab/product/fd9e6c45-faa5-486a-b5a2-f79cfbe668d5
+    install: Install from the FAB store via the Epic Games Launcher.
+    official: true
+    price: free
+    version: null
+    published: null
+    note: >-
+      Marketplace distribution, announced by PlayerWON on 2025-05-15 and declared
+      in the plugin manifest's MarketplaceURL. Version and publish date could not
+      be read: fab.com returned HTTP 403 to an unauthenticated fetch, and the
+      listing is not addressable by a pinned version URL. Checked 2026-08-13.
   - language: go
     engine: server
     registry: github
-    name: PlayerWON Example Game Server
-    repo: https://github.com/simulmedia/playerwon-sdk
+    name: PlayerWON Example Game Server (DevGameServer)
+    repo: https://github.com/Simulmedia/playerwon-sdk
     path: DevGameServer/
-    install: Run the reference Go game server that brokers the /token client-credentials exchange for game clients.
+    module: github.com/playerwon-sdk/playerwon_gameserverexample
+    install: Download the release binaries, or `go build ./DevGameServer/cmd/gameserver`.
     official: true
     kind: reference-server
+    version: '1.0.0'
+    published: '2022-10-03'
+    version_source: https://github.com/Simulmedia/playerwon-sdk/releases/tag/v1.0.0
+    go_version: '1.19'
+    platforms: [Windows 10/11, Linux, macOS]
+    note: >-
+      Brokers the /token client-credentials exchange for game clients in
+      development. Not published to a Go module proxy under a resolvable path.
+license:
+  spdx: Apache-2.0
+  holder: Simulmedia, Inc.
+  year: 2022
+  source: https://github.com/Simulmedia/playerwon-sdk/blob/main/LICENSE

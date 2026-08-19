@@ -1,0 +1,115 @@
+generated: '2026-08-13'
+method: probed
+source: >-
+  Live unauthenticated probes of https://game.simulmedia-apis.com (2026-08-13),
+  plus the error strings raised by the first-party PlayerWON SDK
+  (https://github.com/Simulmedia/playerwon-sdk).
+api: PlayerWON API
+base_url: https://game.simulmedia-apis.com
+format: vendor-json
+notes: >-
+  The PlayerWON API publishes no OpenAPI and no error reference page, so this
+  catalog is built from directly observed HTTP responses on the live API host and
+  from the error conditions the first-party SDK raises client-side. The envelope
+  is NOT RFC 9457 (no application/problem+json, no type/title/status/detail); it
+  is a single-field JSON object: {"message": "<text>"}. There is no machine-readable
+  error code, so consumers must string-match the message.
+envelope:
+  content_type: application/json
+  shape:
+    message: Human-readable error text. The only field returned.
+  rfc9457: false
+  error_code_field: none
+  request_id_field: none
+  note: >-
+    The API sits behind Cloudflare; responses carry a `cf-ray` header which is the
+    only per-request correlation id available to a caller.
+problem_types:
+  - status: 400
+    envelope_message: 'client_id: no value'
+    title: Missing or malformed token-request parameter
+    operation: POST /token
+    cause: >-
+      A required OAuth2 client-credentials form parameter (client_id,
+      client_secret, grant_type, tid) was absent from the
+      application/x-www-form-urlencoded body.
+    remediation: >-
+      Send all four form fields. Message text names the offending field
+      ("<field>: no value"), so it is parseable by prefix but not stable.
+    evidence:
+      probed: '2026-08-13'
+      request: POST /token with grant_type=client_credentials only
+      http_status: 400
+      body: '{"message":"client_id: no value"}'
+  - status: 401
+    envelope_message: Unauthorized
+    title: Missing, expired or invalid Bearer token
+    operation: POST /session, POST /opportunity, PUT /start/{receipt}, PUT /progress/{receipt}, PUT /complete/{receipt}, PUT /abort/{receipt}
+    cause: >-
+      No Authorization header, or an access token that is expired or was not
+      issued for this game title.
+    remediation: >-
+      Re-run the POST /token client-credentials exchange on the game server and
+      resend with `Authorization: Bearer <access_token>`. Tokens are short-lived;
+      honour `expires_in` from the token response.
+    evidence:
+      probed: '2026-08-13'
+      request: POST /session with no Authorization header
+      http_status: 401
+      body: '{"message":"Unauthorized"}'
+  - status: 404
+    envelope_message: Not Found
+    title: Unknown path
+    operation: any
+    cause: Path is not part of the PlayerWON API surface, or the receipt in the path is unknown.
+    remediation: Check the operation path; the API is unversioned and served at the host root.
+    evidence:
+      probed: '2026-08-13'
+      request: GET /
+      http_status: 404
+      body: '{"message":"Not Found"}'
+client_side_errors:
+  note: >-
+    Conditions the first-party SDK raises before or after the HTTP call. These are
+    not API status codes; they surface through the SDK error/telemetry channel
+    (Unity `ErrorHandler.InvokeError`, Unreal `TelemetryComponent::CatchError`,
+    both of which POST a `{"type":"error"}` message to /sdk/telemetry).
+  source: >-
+    UnitySDK/Assets/PlayerWon-SDK/Classes/Telemetry.cs,
+    PlayerWONSDK/Plugins/PlayerWONSDKPlugin/Source/PlayerWONSDKPlugin/Private/SDK/PlayerWONBridge.cpp
+  errors:
+    - key: invalid-client-credentials
+      message: PlayerWONBridge::RetrieveOpportunity - Invalid ClientCredentials.
+      cause: Client credentials object was not populated before requesting an opportunity.
+    - key: invalid-authorization-token
+      message: PlayerWONBridge::RetrieveOpportunity - Invalid AuthorizationToken.
+      cause: No access token had been handed to the client by the game server.
+    - key: session-token-invalid
+      message: PlayerWONBridge::CallSession - AuthorizationToken not valid.
+      cause: POST /session attempted without a valid Bearer token.
+    - key: session-details-invalid
+      message: PlayerWONBridge::CallSession - SessionDetails not valid.
+      cause: SessionDetails payload failed local validation.
+    - key: opportunity-invalid
+      message: PlayerWONBridge - Opportunity is not valid.
+      cause: The Opportunity returned by POST /opportunity was empty or unusable.
+    - key: opportunity-deserialize-failed
+      message: PlayerWONBridge - Could not deserialize Opportunity from Json
+      cause: Response body did not match the expected Opportunity shape.
+    - key: opportunity-request-failed
+      message: PlayerWONBridge::OnOpportunityResponse - Opportunity request failed.
+      cause: Non-2xx response, or transport failure, on POST /opportunity.
+    - key: media-player-cannot-play
+      message: PlayerWONBridge::PlayOpportunity - MediaPlayer cannot play given URL
+      cause: The CreativeURL / VideoURL could not be opened by the engine media player.
+    - key: media-player-not-set
+      message: PlayerWONBridge::PlayOpportunity - MediaPlayer not set.
+      cause: SDK bridge was not wired to a media player component.
+    - key: telemetry-serialize-failed
+      message: TelemetryComponent::InitializeTelemetry - TelemetryMessage failed to serialize to Json.
+      cause: Telemetry message could not be serialised before POST /sdk/telemetry.
+gaps:
+  - No RFC 9457 application/problem+json envelope.
+  - No stable machine-readable error code; only free-text `message`.
+  - No published error reference page.
+  - No documented 429 / rate-limit error; none observed (see rate-limits/).

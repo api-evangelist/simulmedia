@@ -1,4 +1,4 @@
-generated: '2026-07-21'
+generated: '2026-08-13'
 method: searched
 source: https://github.com/simulmedia/playerwon-sdk
 docs: https://github.com/simulmedia/playerwon-sdk
@@ -45,3 +45,30 @@ schemes:
       Access token returned by /token is sent as `Authorization: Bearer <token>`
       on the /session, /opportunity, /start, /progress, /complete and /abort calls.
     sources: [UnitySDK/Assets/PlayerWon-SDK/Classes/Bridge.cs]
+scopes:
+  supported: false
+  note: >-
+    No `scope` parameter on the token request and no scope reference in the docs
+    or SDK. A token is scoped implicitly to the game title named by `tid`, so no
+    scopes/ artifact is emitted.
+unauthenticated_surface:
+  - path: /sdk/telemetry
+    method: POST
+    note: >-
+      The Unity SDK posts telemetry with only a Content-Type header — no
+      Authorization. Recorded as observed in the first-party implementation.
+    source: UnitySDK/Assets/PlayerWon-SDK/Classes/Telemetry.cs
+x-evidence:
+  probed: '2026-08-13'
+  observations:
+    - request: POST /token with grant_type=client_credentials only
+      http_status: 400
+      body: '{"message":"client_id: no value"}'
+      confirms: /token is live and enforces the client-credentials parameter set.
+    - request: POST /session with no Authorization header
+      http_status: 401
+      body: '{"message":"Unauthorized"}'
+      confirms: Bearer token is required on the resource endpoints.
+    - request: POST /opportunity with no Authorization header
+      http_status: 401
+      body: '{"message":"Unauthorized"}'

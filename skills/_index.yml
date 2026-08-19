@@ -1,6 +1,12 @@
-generated: '2026-07-21'
+generated: '2026-08-13'
 method: generated
-source: https://github.com/simulmedia/playerwon-sdk
+source: >-
+  https://github.com/Simulmedia/playerwon-sdk plus live probes of
+  https://game.simulmedia-apis.com (2026-08-13)
+note: >-
+  Grounded in the operations observed in the first-party SDK and confirmed against
+  the live API host. PlayerWON publishes no OpenAPI, so operations are named by
+  method + path rather than operationId.
 skills:
   - file: simulmedia-playerwon-rewarded-video.md
     name: PlayerWON rewarded-video opportunity
@@ -13,3 +19,9 @@ skills:
       - PUT /progress/{receipt}
       - PUT /complete/{receipt}
       - PUT /abort/{receipt}
+  - file: simulmedia-playerwon-token-broker.md
+    name: PlayerWON server-side token brokering
+    api: PlayerWON API
+    operations:
+      - POST /token
+      - POST /sdk/telemetry

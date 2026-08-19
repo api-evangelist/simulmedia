@@ -1,0 +1,48 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://www.skybeam.io/pricing (307 -> https://platform.simulmedia.com/),
+  https://www.simulmedia.com/platform/skybeam (307 -> platform sign-in),
+  https://www.playerwon.com/blog/playerwon-launches-new-unreal-sdk-on-fab-store
+plan_count: 0
+plans: []
+notes: >-
+  Simulmedia publishes no priced plan table today. Its self-serve product,
+  Skybeam (skybeam.io — Simulmedia's own self-serve CTV/linear buying platform,
+  which simulmedia.com links from /platform/skybeam), previously carried a public
+  /pricing page; as of 2026-08-13 both https://www.skybeam.io/pricing and
+  https://www.simulmedia.com/platform/skybeam issue an HTTP 307 to
+  https://platform.simulmedia.com/, the application sign-in. Pricing is therefore
+  visible only after account creation. The managed Performance TV / TV+ services
+  are sold through a sales motion ("request a demo", "contact us") with no
+  published rate card. There is no metered or per-call price for the PlayerWON
+  API: PlayerWON is a monetization product for game developers, not a paid API.
+commercial_model:
+  - product: PlayerWON API + SDK
+    model: free-to-developer / revenue-share
+    price_published: false
+    evidence: >-
+      Simulmedia's own announcement of the Unreal SDK states "the SDK is provided
+      free of charge to developers". No revenue-share percentage is published.
+    source: https://www.playerwon.com/blog/playerwon-launches-new-unreal-sdk-on-fab-store
+  - product: Skybeam (self-serve TV/CTV buying)
+    model: self-serve ad spend, budget-based
+    price_published: false
+    evidence: >-
+      Skybeam is marketed with low entry budgets, but the pricing page now
+      redirects to the platform sign-in, so no tier, CPM or fee can be read from
+      a public URL.
+    source: https://www.skybeam.io/pricing
+  - product: Performance TV / TV+ managed service
+    model: contact-sales
+    price_published: false
+    source: https://www.simulmedia.com/
+evidence:
+  - url: https://www.skybeam.io/pricing
+    status: 307
+    note: Location https://platform.simulmedia.com/ (sign-in).
+  - url: https://www.simulmedia.com/platform/skybeam
+    status: 307
+    note: Location https://platform.simulmedia.com/ (sign-in).
+  - url: https://www.simulmedia.com/pricing
+    status: 404

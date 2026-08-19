@@ -1,4 +1,4 @@
-generated: '2026-07-21'
+generated: '2026-08-13'
 method: probed
 source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
 hosts:
@@ -17,7 +17,7 @@ hosts:
 - host: game.simulmedia-apis.com
   https: true
   tls_version: TLSv1.3
-  cert_expires: Aug 30 02:58:58 2026 GMT
+  cert_expires: Oct 28 03:55:52 2026 GMT
   hsts: null
 domains:
 - domain: simulmedia.com

@@ -1,35 +1,54 @@
-generated: '2026-07-21'
+generated: '2026-08-13'
 method: derived
 status: candidate
 source: https://github.com/simulmedia/playerwon-sdk
-notes: >-
-  No official hosted/remote MCP server for Simulmedia or the PlayerWON API was
-  found. The tool list below is a CANDIDATE derived from the PlayerWON API
-  operations observed in the first-party SDK, as a starting point for an MCP
-  server. Auth is OAuth2 client-credentials (see authentication/).
+notes: No official hosted/remote MCP server for Simulmedia or the PlayerWON API was found. The tool list
+  below is a CANDIDATE derived from the PlayerWON API operations observed in the first-party SDK, as a
+  starting point for an MCP server. Auth is OAuth2 client-credentials (see authentication/).
 server:
   name: playerwon
   transport: http
   base_url: https://game.simulmedia-apis.com
 tools:
-  - name: get_token
-    description: Exchange client credentials for a Bearer access token.
-    source_operation: POST /token
-  - name: open_session
-    description: Open a PlayerWON session for the authenticated game title.
-    source_operation: POST /session
-  - name: get_opportunity
-    description: Request rewarded-video ad opportunities for a player (ClientDetails body).
-    source_operation: POST /opportunity
-  - name: start_opportunity
-    description: Signal that playback of an opportunity has started.
-    source_operation: PUT /start/{receipt}
-  - name: report_progress
-    description: Report playback progress for an opportunity.
-    source_operation: PUT /progress/{receipt}
-  - name: complete_opportunity
-    description: Signal that an opportunity completed and the reward should be granted.
-    source_operation: PUT /complete/{receipt}
-  - name: abort_opportunity
-    description: Signal that an opportunity was aborted before completion.
-    source_operation: PUT /abort/{receipt}
+- name: get_token
+  description: Exchange client credentials for a Bearer access token.
+  source_operation: POST /token
+- name: open_session
+  description: Open a PlayerWON session for the authenticated game title.
+  source_operation: POST /session
+- name: get_opportunity
+  description: Request rewarded-video ad opportunities for a player (ClientDetails body).
+  source_operation: POST /opportunity
+- name: start_opportunity
+  description: Signal that playback of an opportunity has started.
+  source_operation: PUT /start/{receipt}
+- name: report_progress
+  description: Report playback progress for an opportunity.
+  source_operation: PUT /progress/{receipt}
+- name: complete_opportunity
+  description: Signal that an opportunity completed and the reward should be granted.
+  source_operation: PUT /complete/{receipt}
+- name: abort_opportunity
+  description: Signal that an opportunity was aborted before completion.
+  source_operation: PUT /abort/{receipt}
+- name: send_sdk_telemetry
+  description: >-
+    Post an SDK telemetry message (type init, auth or error) for a game title.
+    Instrumentation only; grants no reward and returns no opportunity.
+  source_operation: POST /sdk/telemetry
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: oauth
+  verified: derived
+  tools: 8
+  checked: '2026-08-13'
+  source: >-
+    No hosted/remote MCP endpoint and no stdio package exists for Simulmedia or
+    PlayerWON. Searched the docs surface, the GitHub org
+    (https://github.com/Simulmedia — 12 repos, none MCP-related), npm and the MCP
+    registries on 2026-08-13. The tool list above is a CANDIDATE derived from the
+    operations observed in the first-party SDK; no endpoint URL is asserted
+    because none exists.

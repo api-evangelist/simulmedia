@@ -1,4 +1,4 @@
-generated: '2026-07-21'
+generated: '2026-08-13'
 method: derived
 source: https://github.com/simulmedia/playerwon-sdk (UnitySDK/Assets/PlayerWon-SDK/Classes)
 api: PlayerWON API
@@ -48,6 +48,45 @@ entities:
       - {name: code, note: Currency code (e.g. USD) or in-game currency.}
   - name: CurrencyArray
     description: A collection of Currency rewards.
+  - name: SessionDetails
+    description: >-
+      Player + device + consent context sent when OPENING a session (POST /session),
+      as distinct from ClientDetails which requests an opportunity. Overlaps
+      ClientDetails but carries demographic range and first-play fields it does not.
+    source: UnitySDK/Assets/PlayerWon-SDK/Classes/SessionDetails.cs
+    fields:
+      - {name: country, note: Player's country (two-letter ISO-3166).}
+      - {name: plat, note: Platform.}
+      - {name: lang, note: Language.}
+      - {name: pid, note: Player gamer tag.}
+      - {name: pid_type, note: Gamer-tag type.}
+      - {name: device}
+      - {name: coppa, note: 1 marks a player under 13.}
+      - {name: underage}
+      - {name: age}
+      - {name: min_age, note: Minimum age this player can be. Not present on ClientDetails.}
+      - {name: max_age, note: Maximum age this player can be. Not present on ClientDetails.}
+      - {name: gg, note: Gender enum (m, f, n). Not present on ClientDetails.}
+      - {name: ls, note: Lifetime-spending flag.}
+      - {name: lsv, note: Lifetime spend value (Currency).}
+      - {name: psd, note: Date the player first played the game. Not present on ClientDetails.}
+      - {name: gs, note: Whether the call originates on the game server.}
+      - {name: lt, note: Limit-tracking flag.}
+      - {name: gdpr}
+      - {name: gdpr_consent}
+  - name: TelemetryMessage
+    description: >-
+      SDK instrumentation message POSTed to /sdk/telemetry. Two concrete shapes
+      share a `type` discriminator.
+    source: UnitySDK/Assets/PlayerWon-SDK/Classes/Telemetry.cs
+    discriminator: type
+    variants:
+      - name: InitializedMessage
+        type_value: init
+        fields: [type, idfa, pw_sdk_ver, engine_ver, gametitle_id, sdk_id, message]
+      - name: GeneralMessage
+        type_values: [error, auth]
+        fields: [type, sdk_id, message, stack_trace]
 relationships:
   - from: Opportunity
     to: ClientDetails
@@ -69,6 +108,18 @@ relationships:
     kind: has_one
     via: receipt
     note: The Receipt keys the /start, /progress, /complete and /abort lifecycle calls.
+  - from: SessionDetails
+    to: Currency
+    kind: has_one
+    via: lsv
+    note: Lifetime spend value carried on the session payload.
+  - from: TelemetryMessage
+    to: ClientDetails
+    kind: belongs_to
+    via: idfa
+    note: >-
+      The init telemetry message carries the same device advertising identifier
+      used on the opportunity request, plus gametitle_id (the `tid` used at /token).
 enums:
   - {name: PlatformType, values: [Wildcard, Android, MacOS, IOS, PC, Playstation, Switch, Unknown, Xbox]}
   - {name: PlayerIDType, values: [Apple, Epic, Google, Microsoft, Nintendo, Sony, Steam, Twitch]}
