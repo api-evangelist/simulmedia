@@ -12,6 +12,18 @@ description: >-
   Ventures. This profile was enriched by the API Evangelist pipeline from the
   company's public developer surface and the open-source PlayerWON SDK.
 url: https://raw.githubusercontent.com/api-evangelist/simulmedia/refs/heads/main/apis.yml
+deliveryModel:
+  model: unknown
+  open_source: unknown
+  commercial: true
+  callable_host: false
+  label: Delivery model not determined — needs a product licence on record
+  confidence: low
+  source:
+  - pricing
+  - repository-unlicensed
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: self-serve
@@ -96,6 +108,10 @@ apis:
   - type: GettingStarted
     url: https://github.com/Simulmedia/playerwon-sdk/blob/main/DevGameServer/README.MD
 common:
+- type: IssueTracker
+  url: https://github.com/Simulmedia/playerwon-sdk/issues
+- type: Releases
+  url: https://github.com/Simulmedia/playerwon-sdk/releases
 - type: DomainSecurity
   url: security/simulmedia-domain-security.yml
 - type: Website
