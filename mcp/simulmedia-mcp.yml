@@ -32,23 +32,12 @@ tools:
   description: Signal that an opportunity was aborted before completion.
   source_operation: PUT /abort/{receipt}
 - name: send_sdk_telemetry
-  description: >-
-    Post an SDK telemetry message (type init, auth or error) for a game title.
-    Instrumentation only; grants no reward and returns no opportunity.
+  description: Post an SDK telemetry message (type init, auth or error) for a game title. Instrumentation
+    only; grants no reward and returns no opportunity.
   source_operation: POST /sdk/telemetry
 deployment:
   mode: none
-  endpoint: null
-  install: null
-  package: null
-  auth: oauth
   verified: derived
-  tools: 8
-  checked: '2026-08-13'
-  source: >-
-    No hosted/remote MCP endpoint and no stdio package exists for Simulmedia or
-    PlayerWON. Searched the docs surface, the GitHub org
-    (https://github.com/Simulmedia — 12 repos, none MCP-related), npm and the MCP
-    registries on 2026-08-13. The tool list above is a CANDIDATE derived from the
-    operations observed in the first-party SDK; no endpoint URL is asserted
-    because none exists.
+  tools: 7
+  checked: '2026-08-12'
+  source: catalog MCP census
