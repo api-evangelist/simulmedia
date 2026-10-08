@@ -112,6 +112,8 @@ apis:
   - type: GettingStarted
     url: https://github.com/Simulmedia/playerwon-sdk/blob/main/DevGameServer/README.MD
 common:
+- type: RateLimits
+  url: rate-limits/simulmedia-rate-limits.yml
 - type: IssueTracker
   url: https://github.com/Simulmedia/playerwon-sdk/issues
 - type: Releases
