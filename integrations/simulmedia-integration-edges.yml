@@ -1,0 +1,16 @@
+generated: '2026-10-20'
+method: none
+source:
+- https://zapier.com/apps/simulmedia/integrations
+- https://n8n.io/integrations/simulmedia/
+- https://composio.dev/toolkits/simulmedia
+- https://monid.ai/tools/simulmedia
+checked:
+- https://composio.dev/toolkits/simulmedia
+- https://monid.ai/tools/simulmedia
+- https://n8n.io/integrations/simulmedia/
+- https://zapier.com/apps/simulmedia/integrations
+summary: null
+marketplace_apps: []
+edges: []
+templates: []

@@ -1,0 +1,170 @@
+generated: '2026-10-20'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 13
+  own: 7
+  other_domain: 5
+  platform: 1
+  roles:
+  - api
+  - identity
+  - other
+  - partner
+  - portal
+  - source
+  - support
+  - website
+hosts:
+- host: api.playerwon.com
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: playerwon.com
+  role: api
+  relation: other-domain
+- host: api.simulmedia-apis.com
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: simulmedia-apis.com
+  role: api
+  relation: other-domain
+- host: api.simulmedia.com
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: simulmedia.com
+  role: api
+  relation: own
+- host: app.simulmedia.com
+  found_by:
+  - pointer
+  - probed
+  - site-links
+  - well-known
+  types:
+  - SignUp
+  serves: []
+  registrable_domain: simulmedia.com
+  role: identity
+  relation: own
+- host: game.simulmedia-apis.com
+  found_by:
+  - apis[]
+  - probed
+  - contract-discovery
+  - well-known
+  - vendor-detect
+  types: []
+  serves:
+  - api
+  - cdn
+  vendor: cloudflare
+  registrable_domain: simulmedia-apis.com
+  role: other
+  relation: other-domain
+- host: github.com
+  found_by:
+  - pointer
+  types:
+  - IssueTracker
+  - Releases
+  - GitHubOrganization
+  serves: []
+  registrable_domain: github.com
+  role: source
+  relation: platform
+- host: help.simulmedia.com
+  found_by:
+  - pointer
+  - probed
+  - site-links
+  - docs-index
+  - well-known
+  types:
+  - HelpCenter
+  serves:
+  - docs
+  registrable_domain: simulmedia.com
+  role: support
+  relation: own
+- host: partners.simulmedia.com
+  found_by:
+  - probed
+  - site-links
+  - well-known
+  types: []
+  serves: []
+  registrable_domain: simulmedia.com
+  role: partner
+  relation: own
+- host: platform.simulmedia.com
+  found_by:
+  - pointer
+  - probed
+  - site-links
+  - well-known
+  types:
+  - Login
+  serves: []
+  registrable_domain: simulmedia.com
+  role: identity
+  relation: own
+- host: simulmedia.com
+  found_by:
+  - pointer
+  - probed
+  - well-known
+  types:
+  - Website
+  - Blog
+  - Support
+  - PrivacyPolicy
+  - TermsOfService
+  serves: []
+  registrable_domain: simulmedia.com
+  role: website
+  relation: own
+- host: www.notion.so
+  found_by:
+  - docs-index
+  types: []
+  serves:
+  - docs
+  registrable_domain: notion.so
+  role: other
+  relation: other-domain
+- host: www.playerwon.com
+  found_by:
+  - pointer
+  - apis[]
+  - probed
+  - docs-index
+  - contract-discovery
+  - well-known
+  - vendor-detect
+  types:
+  - DeveloperPortal
+  serves:
+  - docs
+  - hosting
+  vendor: vercel
+  registrable_domain: playerwon.com
+  role: portal
+  relation: other-domain
+- host: www.simulmedia.com
+  found_by:
+  - pointer
+  - probed
+  - well-known
+  types:
+  - Leadership
+  serves: []
+  registrable_domain: simulmedia.com
+  role: other
+  relation: own

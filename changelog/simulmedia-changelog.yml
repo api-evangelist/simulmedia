@@ -9,9 +9,8 @@ scheme: >-
   for the developer surface is the PlayerWON SDK's GitHub release/commit history;
   platform changes are announced as dated "product updates" blog posts on the
   Skybeam product site. Both are recorded here.
-current_version:
-  sdk: '1.0.0'
-  api: unversioned
+current_version: '1.0.0'
+current_version_scope: PlayerWON SDK (the API itself is unversioned)
 surfaces:
   - kind: sdk-releases
     url: https://github.com/Simulmedia/playerwon-sdk/releases

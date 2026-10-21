@@ -1,5 +1,6 @@
 ---
-name: PlayerWON server-side token brokering
+name: playerwon-token-broker
+title: PlayerWON server-side token brokering
 description: Stand up the server-side half of a PlayerWON integration — exchange the game's client credentials for a short-lived access token and hand it to the game client — without ever shipping the client secret in the game binary.
 api: PlayerWON API
 base_url: https://game.simulmedia-apis.com

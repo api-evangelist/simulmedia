@@ -1,17 +1,16 @@
 aid: simulmedia
+
 name: Simulmedia
-description: >-
-  Simulmedia is a technology-driven television advertising company that helps
-  advertisers, agencies, and growth marketers plan, buy, and measure campaigns
-  across linear TV, connected TV (CTV), and games. Its products include the
-  Performance TV media-buying service, the AI-powered TV+ media-buying platform,
-  and Simulmedia Self-Serve. Through PlayerWON, Simulmedia operates an in-game
-  rewarded-video engagement and monetization platform for free-to-play console
-  and PC games, exposed to game developers through the PlayerWON API and a
-  first-party Unity/Unreal SDK. Simulmedia is a portfolio company of Union Square
-  Ventures. This profile was enriched by the API Evangelist pipeline from the
-  company's public developer surface and the open-source PlayerWON SDK.
+
+description: Simulmedia is a technology-driven television advertising company that helps advertisers, agencies, and growth marketers plan, buy,
+  and measure campaigns across linear TV, connected TV (CTV), and games. Its products include the Performance TV media-buying service, the AI-powered
+  TV+ media-buying platform, and Simulmedia Self-Serve. Through PlayerWON, Simulmedia operates an in-game rewarded-video engagement and monetization
+  platform for free-to-play console and PC games, exposed to game developers through the PlayerWON API and a first-party Unity/Unreal SDK. Simulmedia
+  is a portfolio company of Union Square Ventures. This profile was enriched by the API Evangelist pipeline from the company's public developer
+  surface and the open-source PlayerWON SDK.
+
 url: https://raw.githubusercontent.com/api-evangelist/simulmedia/refs/heads/main/apis.yml
+
 deliveryModel:
   model: saas
   license_evidence:
@@ -27,6 +26,7 @@ deliveryModel:
   - repository-not-product
   generated: '2026-09-25'
   method: derived
+
 accessModel:
   pricing: unknown
   onboarding: self-serve
@@ -39,16 +39,26 @@ accessModel:
   - authentication
   generated: '2026-07-22'
   method: derived
+
 image: https://logo.clearbit.com/simulmedia.com
+
 x-type: company
+
 x-source: vc-portfolio
+
 x-backed-by:
 - union-square-ventures
-x-tier: stub
-x-tier-reason: portfolio-lead
+
+x-tier: profiled
+
+x-tier-reason: enrichment pass 2026-10-20 (local-v5; was portfolio-lead)
+
 specificationVersion: '0.23'
+
 created: '2026-07-17'
+
 modified: '2026-08-13'
+
 tags:
 - Company
 - Advertising
@@ -58,62 +68,22 @@ tags:
 - AdTech
 - Rewarded Video
 - Media Buying
+
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
-apis:
-- name: PlayerWON API
-  description: >-
-    In-game rewarded-video ad API. A game server exchanges client credentials for
-    a Bearer token, then requests ad opportunities for a player and reports the
-    playback lifecycle (start, progress, complete, abort) so the player's reward
-    is granted. OAuth2 client-credentials; JSON. Surfaced from the first-party
-    PlayerWON SDK (no public OpenAPI is published).
-  humanURL: https://www.playerwon.com
-  baseURL: https://game.simulmedia-apis.com
-  tags:
-  - Rewarded Video
-  - Games
-  - Advertising
-  properties:
-  - type: Authentication
-    url: authentication/simulmedia-authentication.yml
-  - type: Conventions
-    url: conventions/simulmedia-conventions.yml
-  - type: DataModel
-    url: data-model/simulmedia-data-model.yml
-  - type: Packages
-    url: packages/simulmedia-packages.yml
-  - type: SDKs
-    url: packages/simulmedia-packages.yml
-  - type: X-MCPServerCandidate
-    url: mcp/simulmedia-mcp.yml
-    note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type surfaces with a server that does not exist.'
-  - type: AgentSkill
-    url: skills/_index.yml
-  - type: Conformance
-    url: conformance/simulmedia-conformance.yml
-  - type: SourceCode
-    url: https://github.com/Simulmedia/playerwon-sdk
-  - type: ErrorCatalog
-    url: errors/simulmedia-problem-types.yml
-  - type: RateLimits
-    url: rate-limits/simulmedia-rate-limits.yml
-  - type: Lifecycle
-    url: lifecycle/simulmedia-lifecycle.yml
-  - type: Components
-    url: components/simulmedia-components.yml
-  - type: APIReference
-    url: https://github.com/Simulmedia/playerwon-sdk/blob/main/UnitySDK/README.MD
-  - type: Documentation
-    url: https://www.playerwon.com/playerwon-ad-server-api
-  - type: GettingStarted
-    url: https://github.com/Simulmedia/playerwon-sdk/blob/main/DevGameServer/README.MD
+
 common:
-- type: RateLimits
-  url: rate-limits/simulmedia-rate-limits.yml
+- type: Sandbox
+  url: sandbox/simulmedia-sandbox.yml
+- type: Hosts
+  url: hosts/simulmedia-hosts.yml
+- type: Vendors
+  url: vendors/simulmedia-vendors.yml
+- type: Leadership
+  url: https://www.simulmedia.com/team
 - type: IssueTracker
   url: https://github.com/Simulmedia/playerwon-sdk/issues
 - type: Releases
@@ -122,8 +92,6 @@ common:
   url: security/simulmedia-domain-security.yml
 - type: Website
   url: https://simulmedia.com
-- type: LLMsTxt
-  url: llms/simulmedia-llms.txt
 - type: GitHubOrganization
   url: https://github.com/Simulmedia
 - type: Blog
@@ -134,6 +102,8 @@ common:
   url: https://platform.simulmedia.com/sign-in
 - type: Support
   url: https://simulmedia.com/contact-us
+- type: HelpCenter
+  url: https://help.simulmedia.com/
 - type: PrivacyPolicy
   url: https://simulmedia.com/privacy
 - type: TermsOfService
@@ -144,8 +114,63 @@ common:
   url: plans/simulmedia-plans-pricing.yml
 - type: DeveloperPortal
   url: https://www.playerwon.com/developers
+
+apis:
+- name: PlayerWON API
+  description: In-game rewarded-video ad API. A game server exchanges client credentials for a Bearer token, then requests ad opportunities for
+    a player and reports the playback lifecycle (start, progress, complete, abort) so the player's reward is granted. OAuth2 client-credentials;
+    JSON. Surfaced from the first-party PlayerWON SDK (no public OpenAPI is published).
+  humanURL: https://www.playerwon.com
+  baseURL: https://game.simulmedia-apis.com
+  tags:
+  - Rewarded Video
+  - Games
+  - Advertising
+  properties:
+  - type: Conventions
+    url: conventions/simulmedia-conventions.yml
+  - type: DataModel
+    url: data-model/simulmedia-data-model.yml
+  - type: Packages
+    url: packages/simulmedia-packages.yml
+  - type: SDKs
+    url: packages/simulmedia-packages.yml
+  - type: X-MCPServerCandidate
+    url: mcp/simulmedia-mcp.yml
+    note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published
+      API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting
+      the artifact-type surfaces with a server that does not exist.'
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: Conformance
+    url: conformance/simulmedia-conformance.yml
+  - type: SourceCode
+    url: https://github.com/Simulmedia/playerwon-sdk
+  - type: Lifecycle
+    url: lifecycle/simulmedia-lifecycle.yml
+  - type: Components
+    url: components/simulmedia-components.yml
+  - type: APIReference
+    url: https://github.com/Simulmedia/playerwon-sdk/blob/main/UnitySDK/README.MD
+  - type: Documentation
+    url: https://www.playerwon.com/playerwon-ad-server-api
+  - type: GettingStarted
+    url: https://github.com/Simulmedia/playerwon-sdk/blob/main/DevGameServer/README.MD
+  aid: simulmedia:playerwon-api
+
+x-coverage:
+  state: unreadable
+  reason: no-machine-readable-spec
+  detail: PlayerWON's ad-server API page on playerwon.com is a JS-rendered marketing page with no endpoint reference, and no OpenAPI, AsyncAPI or GraphQL contract is served on game.simulmedia-apis.com or in the Simulmedia GitHub org; the API is known only from the open-source SDK.
+  evidence:
+  - url: https://www.playerwon.com/playerwon-ad-server-api
+    status: 200
+  - url: https://simulmedia.com
+    status: 200
+  checked: '2026-10-20'
+
 x-enrichment:
-  date: '2026-08-13'
-  status: enriched
-  artifacts_added: 8
-  pass: local-v1
+  date: '2026-10-20'
+  status: nochange
+  artifacts_added: 0
+  pass: local-v5

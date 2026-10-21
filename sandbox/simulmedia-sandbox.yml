@@ -4,6 +4,8 @@ source: >-
   https://github.com/Simulmedia/playerwon-sdk (DevGameServer/README.MD,
   UnitySDK example scene, PlayerWONSDK example levels)
 api: PlayerWON API
+description: PlayerWON publishes no sandbox environment and no test credentials; the provider ships only a local development harness (DevGameServer) that brokers production credentials.
+docs: https://github.com/Simulmedia/playerwon-sdk/blob/main/DevGameServer/README.MD
 sandbox_environment: false
 test_credentials_published: false
 summary: >-

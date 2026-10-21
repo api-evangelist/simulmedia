@@ -1,5 +1,6 @@
 ---
-name: PlayerWON rewarded-video opportunity
+name: playerwon-rewarded-video
+title: PlayerWON rewarded-video opportunity
 description: Authorize with PlayerWON, request a rewarded-video ad opportunity for a player, play it, and report the playback lifecycle so the player's reward is granted.
 api: PlayerWON API
 base_url: https://game.simulmedia-apis.com
